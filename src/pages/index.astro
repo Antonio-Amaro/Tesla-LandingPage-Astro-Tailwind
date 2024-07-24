@@ -1,0 +1,41 @@
+---
+import LandingHeader from '../components/LandingHeader.astro';
+import HeroSection from '../components/HeroSection.astro';
+import ModelY from '../components/ModelY.astro';
+import Model3 from '../components/Model3.astro';
+import ModelS from '../components/ModelS.astro';
+import ModelX from '../components/ModelX.astro';
+import SolarPower from '../components/SolarPower.astro';
+import Accesories from '../components/Accesories.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Coches eléctricos, energía solar y limpia | Tesla México">
+	<LandingHeader />
+	
+	<main class="snap-y snap-mandatory relative w-full h-screen overflow-y-auto overflow-x-hidden">
+		<div id="home" class="snap-center">
+			<HeroSection />
+		</div>
+		<div id="model-y" class="snap-center">
+			<ModelY />
+		</div>
+		<div id="model-3" class="snap-center">
+			<Model3 />
+		</div>
+		<div id="model-s" class="snap-center">
+			<ModelS />
+		</div>
+		<div id="model-x" class="snap-center">
+			<ModelX />
+		</div>
+		<div id="powerwall" class="snap-center">
+			<SolarPower />
+		</div>
+		<div id="accesorios" class="snap-center">
+			<Accesories />
+		</div>
+	</main>
+</Layout>
+
+

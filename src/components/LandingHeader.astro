@@ -1,0 +1,128 @@
+---
+import Logo from "./Logo.astro";
+---
+
+<header 
+    id="landing-header"    
+    class="py-3 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-white"
+>
+
+    <div class="flex flex-grow basis-0">
+        <Logo />
+    </div>
+
+    <nav class="hidden xl:block sm:hidden">
+        <ul class="flex text-sm [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:transition-colors duration-200">
+            <li><a href="#model-y">Model Y</a></li>
+            <li><a href="#model-3">Model 3</a></li>
+            <li><a href="#model-s">Model S</a></li>
+            <li><a href="#model-x">Model X</a></li>
+            <li><a href="#powerwall">Powerwall</a></li>
+            <li><a href="#accesorios">Carga</a></li>
+        </ul>
+    </nav>
+
+    <nav class="flex flex-grow basis-0 justify-end">
+        <ul 
+            class="flex text-sm [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:transition-colors duration-200"
+        >
+            <li class="hidden xl:block sm:hidden"><a href="#">Soporte</a></li>
+            <li class="hidden xl:block sm:hidden"><a href="#">Tienda</a></li>
+            <li class="hidden xl:block sm:hidden"><a href="#">Cuenta</a></li>
+            <li class="block xl:hidden"><a id="menu-btn" href="#">Menú</a></li>
+        </ul>
+    </nav>
+
+    <nav id="modal-menu" class="hidden xl:hidden flex-col bg-white fixed top-0 left-0 right-0 bottom-0 ">
+        <button id="close-btn" class=" w-screen flex justify-end p-5">
+          <img  class="text-black h-6 " src="/close-icon.svg" alt="close image">
+        </button>
+          <ul
+          class="flex flex-col mt-4 [&>li>a]:transition-colors [&>li]:m-3  [&>li>a]:flex [&>li>a]:justify-between [&>li>a]:duration-200 [&>li>a]:text-black [&>li>a]:font-medium [&>li>a]:px-6 [&>li>a]:py-3 [&>li>a]:rounded-md [&>li>a]:w-full"
+          >
+            <li><a class="hover:bg-slate-100" href="#home"> Home <img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a> </li>
+            <li><a class="hover:bg-slate-100" href="#model-y">Model Y<img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a></li>
+            <li><a class="hover:bg-slate-100" href="#model-3">Model 3<img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a></li>
+            <li><a class="hover:bg-slate-100" href="#model-s">Model S<img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a></li>
+            <li><a class="hover:bg-slate-100" href="#model-x">Model X<img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a></li>
+            <li><a class="hover:bg-slate-100" href="#powerwall">Powerwall<img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a></li>
+            <li><a class="hover:bg-slate-100" href="#accesorios">Carga<img class="h-5" alt="arrow icon" src="/arrow-icon.svg"></a></li>
+        </ul>
+      </nav>
+
+    <div id="menu-backdrop" class="absolute bg-black/5 backdrop-blur-lg rounded left-[var(--left)] top-[var(--top)] w-[var(--width)] h-[var(--height)] transition-all duration-500 ease-in-out opacity-0 -z-10"></div>
+
+</header>
+
+<script >
+    const menuBtn = document.getElementById('menu-btn');
+    const modalMenu = document.querySelector("#modal-menu")
+    const menuItems = modalMenu.querySelectorAll('li>a ');
+    const closeBtn = document.querySelector("#close-btn")
+    
+    function toggleDropdownMenu() {
+      modalMenu.classList.toggle('hidden');
+    }
+  
+  
+    menuBtn.addEventListener('click',toggleDropdownMenu)
+  
+    closeBtn.addEventListener('click',toggleDropdownMenu)
+  
+    menuItems.forEach(Item => {
+      Item.addEventListener('click',toggleDropdownMenu);
+  });
+  
+  
+  
+  </script>
+
+<script>
+    const listItem = document.querySelectorAll('#landing-header nav li')
+    const menuBackdrop = document.querySelector('#menu-backdrop') as HTMLElement
+
+    listItem.forEach( item => {
+        item.addEventListener("mouseenter", () => {
+            const { left, top, width, height } = item.getBoundingClientRect()           
+
+            menuBackdrop.style.setProperty('--left', `${left}px`)
+            menuBackdrop.style.setProperty('--top', `${top}px`)
+            menuBackdrop.style.setProperty('--width', `${width}px`)
+            menuBackdrop.style.setProperty('--height', `${height}px`)
+
+            menuBackdrop.style.opacity = "1"
+            menuBackdrop.style.visibility = "visible"
+        })
+
+        item.addEventListener('mouseleave', () => {
+            menuBackdrop.style.opacity = "0"
+            menuBackdrop.style.visibility = "hidden"
+        })
+        
+    })
+</script>
+
+<script>
+
+    const header = document.querySelector('#landing-header') as HTMLElement;
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px', // En cuanto se vea
+        threshold: 0.50
+    }
+
+    const observer = new IntersectionObserver( entries => {
+        entries.forEach( entry => {
+            const { isIntersecting } = entry
+            if(isIntersecting) {
+                const color = entry.target.getAttribute('data-header-color');
+                header.style.color = color;
+            }
+        })
+    }, observerOptions)
+
+    const sections = document.querySelectorAll('.landing-section')
+    sections.forEach( section => observer.observe(section));
+
+</script>
